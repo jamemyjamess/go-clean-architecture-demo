@@ -11,7 +11,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-//	go_leak "github.com/jamemyjamess/go-clean-architecture-demo/cmd/go-leak"
+//	go_leak "github.com/jamemyjamess/go-clean-architecture-demo/cmd/learning/go-leak"
 
 type Test struct {
 	no    int

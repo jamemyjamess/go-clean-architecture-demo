@@ -13,7 +13,7 @@ package main
 // 	"golang.org/x/sync/errgroup"
 // )
 
-// //	go_leak "github.com/jamemyjamess/go-clean-architecture-demo/cmd/go-leak"
+// //	go_leak "github.com/jamemyjamess/go-clean-architecture-demo/cmd/learning/go-leak"
 
 // type Test struct {
 // 	no    int
@@ -94,7 +94,7 @@ package main
 // 	rows := 10000000
 // 	limit := 2000
 // 	section := int(math.Ceil(float64(rows) / float64(limit)))
-// 	ctx, cancel := context.WithTimeout(context.Background(), 100000000*time.Second)
+// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 // 	// Even though ctx will be expired, it is good practice to call its
 // 	// cancelation function in any case. Failure to do so may keep the
 // 	// context and its parent alive longer than necessary.
@@ -117,37 +117,29 @@ package main
 // }
 
 // func doWorkErrorGroupWithTimeOut(ctx context.Context, testList *[]Test, no, limit, offset int) error {
+// 	testListItem := &[]Test{}
 // 	done := make(chan struct{}, 1)
-// 	errCh := make(chan error, 1)
-// 	defer close(errCh)
-// 	//time.Sleep(5 * time.Second)
-// 	go func() {
-// 		defer close(done)
-// 		testListItem := &[]Test{}
-// 		// example error
-// 		// randInt := 0
-// 		// if randInt == 1 {
-// 		// 	errCh <- fmt.Errorf("example error on work no: %v", no)
-// 		// 	close(errCh)
-// 		// }
-// 		for i := 0; i < limit; i++ {
-// 			testItem := &Test{}
-// 			testItem.no = i + no
-// 			testItem.value = rand.Intn(100)
-// 			*testListItem = append(*testListItem, *testItem)
+// 	defer close(done)
+// 	// example error
+// 	// randInt := rand.Intn(2)
+// 	// if randInt == 1 {
+// 	// 	return fmt.Errorf("example error on work no: %v", no)
+// 	// }
+// 	for i := 0; i < limit; i++ {
+// 		testItem := &Test{
+// 			no:    i + no,
+// 			value: rand.Intn(100),
 // 		}
-// 		m.Lock()
-// 		*testList = append(*testList, *testListItem...)
-// 		m.Unlock()
-// 		// close(errCh)
-// 	}()
+// 		*testListItem = append(*testListItem, *testItem)
+// 	}
+// 	m.Lock()
+// 	*testList = append(*testList, *testListItem...)
+// 	m.Unlock()
 // 	select {
 // 	case <-ctx.Done():
 // 		return ctx.Err()
-// 	case <-done:
+// 	case done <- struct{}{}:
+// 		// or close(done) on this
 // 		return nil
-// 	case err := <-errCh:
-// 		log.Println(err.Error())
-// 		return err
 // 	}
 // }

@@ -10,6 +10,7 @@ func (u *userUsecase) CreateOrUpdate(ctx context.Context, req *input.UserCreateR
 	// if err := u.c.Validate(req); err != nil {
 	// 	return err
 	// }
+	// input.Validate(req)
 	user := input.CreateReqToUserDomain(req)
 	err := u.userRepo.Create(ctx, user)
 	if err != nil {

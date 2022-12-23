@@ -1,15 +1,11 @@
 package handler
 
-import (
-	"github.com/jamemyjamess/go-clean-architecture-demo/module/user/controller"
-	"github.com/jamemyjamess/go-clean-architecture-demo/module/user/repository/postgres"
-	"github.com/jamemyjamess/go-clean-architecture-demo/module/user/usecase"
-	"github.com/jamemyjamess/go-clean-architecture-demo/pkg/database"
-	"github.com/labstack/echo/v4"
-)
+import "github.com/labstack/echo/v4"
 
-func NewUserHandler(e *echo.Group) {
-	usersRepository := postgres.NewUserRepository(database.PostgresSql)
-	usersUsecase := usecase.NewUserUsecase(usersRepository, nil)
-	controller.NewUsersController(e, usersUsecase)
+func (handler *Handler) mapUserRouteHandler(e *echo.Group) {
+	e.Group("/company")
+	{
+		e.GET("/:id", handler.user.FindInfo)
+		e.PUT("/:id", handler.user.CreateOrUpdate)
+	}
 }

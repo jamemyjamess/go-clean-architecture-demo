@@ -7,7 +7,7 @@ import (
 
 type CompanyController interface {
 	Find(c echo.Context) error
-	CreateOrUpdate(c echo.Context) error
+	// CreateOrUpdate(c echo.Context) error
 }
 
 type companyController struct {
@@ -22,4 +22,8 @@ func NewCompanyController(e *echo.Group, companyUsecase usecase.CompanyUsecase) 
 	{
 		e.GET("/:id", userControllers.Find)
 	}
+}
+
+func NewCompanyHandler(companyUsecase usecase.CompanyUsecase) CompanyController {
+	return &companyController{companyUsecase}
 }

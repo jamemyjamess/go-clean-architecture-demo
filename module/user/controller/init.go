@@ -24,3 +24,7 @@ func NewUsersController(e *echo.Group, userUsecase usecase.UserUsecase) {
 		e.PUT("/:id", userControllers.CreateOrUpdate)
 	}
 }
+
+func NewUserHandler(userUsecase usecase.UserUsecase) UserController {
+	return &userController{userUsecase}
+}

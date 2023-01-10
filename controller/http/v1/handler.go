@@ -7,6 +7,7 @@ import (
 	_companyHttp "github.com/jamemyjamess/go-clean-architecture-demo/module/company/controller"
 	_companyRepository "github.com/jamemyjamess/go-clean-architecture-demo/module/company/repository/postgres"
 	_companyUsecase "github.com/jamemyjamess/go-clean-architecture-demo/module/company/usecase"
+	_learnHttp "github.com/jamemyjamess/go-clean-architecture-demo/module/learn/controller"
 	_userHttp "github.com/jamemyjamess/go-clean-architecture-demo/module/user/controller"
 	_userRepository "github.com/jamemyjamess/go-clean-architecture-demo/module/user/repository/postgres"
 	_userUsecase "github.com/jamemyjamess/go-clean-architecture-demo/module/user/usecase"
@@ -18,6 +19,7 @@ type Handler struct {
 	// Db *gorm.DB
 	company _companyHttp.CompanyController
 	user    _userHttp.UserController
+	learn   _learnHttp.SessionController
 }
 
 func NewHandler() *Handler {
@@ -31,6 +33,7 @@ func NewHandler() *Handler {
 	return &Handler{
 		company: _companyHttp.NewCompanyHandler(companyUsecase),
 		user:    _userHttp.NewUserHandler(userUsecase),
+		learn:   _learnHttp.NewSessionHandler(userUsecase),
 	}
 }
 
